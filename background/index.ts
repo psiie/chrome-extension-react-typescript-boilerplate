@@ -15,7 +15,7 @@ console.log('loaded');
 });
 
 chrome.browserAction.onClicked.addListener(tab => {
-  chrome.tabs.create({'url': chrome.extension.getURL('index.html')}, tab => {
+  chrome.tabs.create({'url': chrome.extension.getURL('foreground.html')}, tab => {
     // Tab opened.
   });
 });
