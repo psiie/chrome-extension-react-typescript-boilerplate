@@ -27,12 +27,14 @@
     "webpack-cli": "^3.3.2"
   },
   "scripts": {
+    "start": "yarn dev",
     "dev": "cross-env NODE_ENV=development webpack --config webpack.config.js --mode=development --watch",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.js --color -p --progress --hide-modules --display-optimization-bailout",
+    "build:dev": "cross-env NODE_ENV=development webpack --config webpack.config.js --mode=development --color -p --progress --hide-modules --display-optimization-bailout",
     "clean": "rimraf build"
   },
   "dependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "preact": "^8.4.2",
+    "preact-compat": "^3.18.5"
   }
 }

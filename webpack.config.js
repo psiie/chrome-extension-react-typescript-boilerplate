@@ -12,13 +12,15 @@ function transformManifest(content) {
     .replace(/{%\s?(.+?)\s?%}/gm, (fullMatch, match) => packageJson[match]);;
 }
 
+console.log('process', process.env.NODE_ENV === 'production', process.env.NODE_ENV)
+
 module.exports = {
   entry: {
     foreground: './app/foreground/index.tsx',
     background: './app/background/index.ts',
     content: './app/contentScript/index.ts',
   },
-  devtool: 'inline-source-map',
+  devtool: process.env.NODE_ENV === 'production' ? false : 'inline-source-map',
   module: {
     rules: [
       {
@@ -47,7 +49,11 @@ module.exports = {
     }),
   ],
   resolve: {
-    extensions: ['.tsx', '.ts', '.jsx', '.js']
+    extensions: ['.tsx', '.ts', '.jsx', '.js'],
+    alias: {
+      react: "preact-compat",
+      "react-dom": "preact-compat",
+    }
   },
   output: {
     filename: '[name].bundle.js',
