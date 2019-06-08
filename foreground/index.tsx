@@ -7,6 +7,11 @@ import ReactDOM from 'react-dom';
 //   console.log('response', response);
 // });
 
+(chrome.extension as any).onMessage.addListener((request: any, sender: any, sendResponse: Function) => {
+  console.log('recieved msg ', request);
+  sendResponse();
+});
+
 const msg: string = 'hello main page1';
 // const test = ['a', 'b', 'c'];
 // const done = [...test, 'd'];
