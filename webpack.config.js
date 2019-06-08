@@ -1,4 +1,3 @@
-// const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const ChromeExtensionReloader  = require('webpack-chrome-extension-reloader');
 const path = require('path');
@@ -44,14 +43,8 @@ module.exports = {
       }
     }),
     new webpack.EnvironmentPlugin({ // expose NODE_ENV from webpack to the build
-      NODE_ENV: 'development',
+      NODE_ENV: process.env.NODE_ENV,
     }),
-
-    // new BrowserSyncPlugin({
-    //   host: 'localhost',
-    //   port: 3000,
-    //   server: { baseDir: ['build'] }
-    // }),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js']
@@ -59,5 +52,8 @@ module.exports = {
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'build'),
-  }
+  },
+  performance: {
+    assetFilter: assetFilename => !/(\.map$)|(^(foreground\.|favicon\.))/.test(assetFilename),
+  },
 };
