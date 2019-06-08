@@ -27,7 +27,7 @@
         "https://www.google.com/*"
       ],
       "js": [
-        "inject.bundle.js"
+        "content.bundle.js"
       ]
     }
   ]
