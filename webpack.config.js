@@ -3,12 +3,21 @@ const CopyPlugin = require('copy-webpack-plugin');
 const ChromeExtensionReloader  = require('webpack-chrome-extension-reloader');
 const path = require('path');
 const webpack = require('webpack');
+const packageJson = require('./package.json');
+
+function transformManifest(content) {
+  // remove comments and interpolate string from packageJson
+  return content
+    .toString()
+    .replace(/\/\*[^]+\*\//gm, '') // multiline comment removal
+    .replace(/{%\s?(.+?)\s?%}/gm, (fullMatch, match) => packageJson[match]);;
+}
 
 module.exports = {
   entry: {
-    foreground: './foreground/index.tsx',
-    background: './background/index.ts',
-    content: './contentScript/index.ts',
+    foreground: './app/foreground/index.tsx',
+    background: './app/background/index.ts',
+    content: './app/contentScript/index.ts',
   },
   devtool: 'inline-source-map',
   module: {
@@ -24,22 +33,17 @@ module.exports = {
   },
   plugins: [
     new CopyPlugin([
-      { from: 'manifest.json', to: 'manifest.json' },
-      { from: 'icons/', to: 'icons/' },
-      { from: 'foreground/index.html', to: 'foreground.html' },
+      { from: 'app/icons/', to: 'icons/' },
+      { from: 'app/foreground/index.html', to: 'foreground.html' },
+      { from: 'app/manifest.jsonc', to: 'manifest.json', transform: transformManifest },
     ]),
     new ChromeExtensionReloader({
-      port: 9090, // Which port use to create the server
-      reloadPage: true, // Force the reload of the page also
-      entries: { // The entries used for the content/background scripts
+      entries: {
+        background: 'background',
         contentScript: 'content', // Use the entry names, not the file name or the path
-        background: 'background', // *REQUIRED
       }
     }),
-    // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
-    // inside your code for any environment checks; Terser will automatically
-    // drop any unreachable code.
-    new webpack.EnvironmentPlugin({
+    new webpack.EnvironmentPlugin({ // expose NODE_ENV from webpack to the build
       NODE_ENV: 'development',
     }),
 

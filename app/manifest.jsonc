@@ -1,9 +1,12 @@
+/* string interpolation will search for keys in package.json.
+"{% name %}" will look in package.json for the name key and replace the value
+here with the value there. */
 {
-  "name": "CHANGE THIS : Extension boilerplate",
-  "version": "0.0.1",
+  "name": "{% name %}",
+  "version": "{% version %}",
   "manifest_version": 2,
-  "description": "This extension was created with the awesome extensionizr.com",
-  "homepage_url": "http://extensionizr.com",
+  "description": "{% description %}",
+  "homepage_url": "{% homepage %}",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
