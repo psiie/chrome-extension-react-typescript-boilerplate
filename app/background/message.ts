@@ -1,35 +1,30 @@
 const ALL_TABS = {};
 
-function serialize(message: Object) {
-  let result: string;
-
-  try {
-    result = JSON.stringify(message);
-  } catch (e) {
-    result = ''; // todo: show error in invariant
-  }
-
-  return result;
-}
-
-function contentScript(message: Object, response: Function) {
-  const messageStr: string = serialize(message);
-  if (!messageStr) return;
+function contentScript(message: Object, response?: Function) {
+  if (!message) return;
 
   chrome.tabs.query(ALL_TABS, tabList => {
     tabList.forEach(tab => {
       const tabId: number = (tab.id as number);
       const options: Object = {};
       const responseCallback: any = response;
+      const url = tab.url as string;
 
-      chrome.tabs.sendMessage(tabId, messageStr, options, responseCallback);  
+      if (!/https?:\/\//.test(url)) return;
+      console.log(url, !/https?:\/\//.test(url), 'sendMessage', tab);
+      chrome.tabs.sendMessage(tabId, message, options, responseCallback);  
     });
   });
+}
+
+function foreground(message: Object, response: Function) {
+  (chrome.extension as any).sendMessage(message, response);
 }
 
 
 export default {
   send: {
     contentScript,
+    foreground,
   }  
 };

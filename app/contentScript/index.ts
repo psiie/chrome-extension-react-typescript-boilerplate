@@ -1,3 +1,5 @@
+import message from './message';
+
 console.log('content script loaded');
 /* Take note that contentScript is ran in the context of the extension.
 Some situations may require injecting code into the page by appending a
@@ -8,3 +10,6 @@ script tag. */
   sendResponse();
 });
 
+setTimeout(() => {
+  message.send.foreground({ test: true });
+}, 3000);

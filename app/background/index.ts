@@ -1,21 +1,18 @@
 
 import './dev';
-
-console.log('node', process.env.NODE_ENV)
+import message from './message';
 
 /* on button click, open foreground react page */
 chrome.browserAction.onClicked.addListener(tab => {
   chrome.tabs.create({'url': chrome.extension.getURL('foreground.html')});
 });
 
-// (chrome.extension as any).onMessage.addListener((request: any, sender: any, sendResponse: Function) => {
-//   console.log('recieved msg ', request);
-//   sendResponse();
-// });
-
-// var settings = new Store("settings", {
-//     "sample_setting": "This is how you use Store.js to remember values"
-// });
-
-
-
+// message.send.contentScript({ cmd: 'tsest' }, res => void 0);
+// setTimeout(() => {
+//   message.send.foreground({ test: true }, res => void 0);
+// }, 3000);
+(chrome.extension as any).onMessage.addListener((request: any, sender: any, sendResponse: Function) => {
+  if (request.recipient !== 'background') return;
+  console.log('recieved msg ', request);
+  sendResponse();
+});

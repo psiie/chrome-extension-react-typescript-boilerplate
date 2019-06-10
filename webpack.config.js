@@ -12,8 +12,6 @@ function transformManifest(content) {
     .replace(/{%\s?(.+?)\s?%}/gm, (fullMatch, match) => packageJson[match]);;
 }
 
-console.log('process', process.env.NODE_ENV === 'production', process.env.NODE_ENV)
-
 module.exports = {
   entry: {
     foreground: './app/foreground/index.tsx',

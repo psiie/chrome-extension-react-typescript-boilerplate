@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 // });
 
 (chrome.extension as any).onMessage.addListener((request: any, sender: any, sendResponse: Function) => {
+  if (request.recipient !== 'foreground') return;
   console.log('recieved msg ', request);
   sendResponse();
 });
