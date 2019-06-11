@@ -3,6 +3,6 @@
 (chrome.extension as any).onMessage.addListener((request: any) => {
   if (!request) return;
 
-  const closeWindow: boolean = request.type === "SIGN_CONNECT" || request.closeForeground;
+  const closeWindow: boolean = request.type === "SIGN_CONNECT" || request.cmd === '@@CLOSE';
   if (closeWindow) window.close();
 });
