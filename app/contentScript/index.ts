@@ -10,6 +10,3 @@ script tag. */
   sendResponse();
 });
 
-setTimeout(() => {
-  message.send.foreground({ test: true });
-}, 3000);
