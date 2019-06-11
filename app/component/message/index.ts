@@ -1,28 +1,19 @@
+import * as d from './index.d';
+import CONSTANTS from './constants';
 import logger from '../logger';
-
-interface Message {
-  [key: string]: any,
-}
-
-const ALL_TABS = {};
-const RECIPIENT = {
-  CONTENT_SCRIPT: 'contentScript',
-  BACKGROUND: 'background',
-  FOREGROUND: 'foreground',
-}
 
 // -------------------------------------------------------------------------- //
 
 function contentScript(message: Object, response?: Function) {
   if (!message) return;
 
-  chrome.tabs.query(ALL_TABS, tabList => {
+  chrome.tabs.query(CONSTANTS.ALL_TABS, tabList => {
     tabList.forEach(tab => {
       const tabId: number = (tab.id as number);
       const options: Object = {};
       const responseCallback: any = response;
       const url = tab.url as string;
-      const msg = { ...message, recipient: RECIPIENT.BACKGROUND };
+      const msg = { ...message, recipient: CONSTANTS.RECIPIENT.BACKGROUND };
 
       if (!/https?:\/\//.test(url)) return;
       logger(url, !/https?:\/\//.test(url), 'sendMessage', tab);
@@ -31,12 +22,12 @@ function contentScript(message: Object, response?: Function) {
   });
 }
 
-function background(message: Message, response?: Function) {
-  (chrome.extension as any).sendMessage({ ...message, recipient: RECIPIENT.BACKGROUND }, response);
+function background(message: d.Message, response?: Function) {
+  (chrome.extension as any).sendMessage({ ...message, recipient: CONSTANTS.RECIPIENT.BACKGROUND }, response);
 }
 
-function foreground(message: Message, response?: Function) {
-  (chrome.extension as any).sendMessage({ ...message, recipient: RECIPIENT.FOREGROUND }, response);
+function foreground(message: d.Message, response?: Function) {
+  (chrome.extension as any).sendMessage({ ...message, recipient: CONSTANTS.RECIPIENT.FOREGROUND }, response);
 }
 
 // -------------------------------------------------------------------------- //
@@ -60,8 +51,8 @@ export default {
     foreground,
   },
   recieve: {
-    contentScript: (callback: Function) => _addListener(RECIPIENT.CONTENT_SCRIPT, callback),
-    background: (callback: Function) => _addListener(RECIPIENT.BACKGROUND, callback),
-    foreground: (callback: Function) => _addListener(RECIPIENT.FOREGROUND, callback),
+    contentScript: (callback: Function) => _addListener(CONSTANTS.RECIPIENT.CONTENT_SCRIPT, callback),
+    background: (callback: Function) => _addListener(CONSTANTS.RECIPIENT.BACKGROUND, callback),
+    foreground: (callback: Function) => _addListener(CONSTANTS.RECIPIENT.FOREGROUND, callback),
   }, 
 };
