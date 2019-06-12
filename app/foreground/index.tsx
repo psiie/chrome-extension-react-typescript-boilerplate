@@ -1,12 +1,18 @@
 import './dev';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import message from '../component/message';
+import { Provider } from 'react-redux'
+// import configureStore from './configureStore';
+// import message from '../component/message';
+import App from './App';
 
-const App: any = () => (
-  <div>
-     <h1>Hello world!</h1>
-  </div>
-)
+// const initialState = {};
+// const store = configureStore(initialState);
 
-ReactDOM.render(<App/>, document.getElementById('root'));
+const rootElement = document.getElementById('root')
+ReactDOM.render(
+  // <Provider>
+    <App />,
+  // </Provider>,
+  rootElement
+);
