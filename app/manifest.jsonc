@@ -24,6 +24,7 @@ here with the value there. */
     "cookies",
     "tabs"
   ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "content_scripts": [
     {
       "matches": [

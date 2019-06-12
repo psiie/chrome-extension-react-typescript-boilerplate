@@ -3,25 +3,46 @@ import { connect } from 'react-redux';
 // import { increment, decrement, reset } from './actionCreators';
 
 class App extends React.Component {
+  props: any;
+
+  constructor(props: any) {
+    super(props);
+
+    this.increment = this.increment.bind(this);
+  }
+
+  increment() {
+    const counter = this.props.counter || 0;
+    this.props.set(counter + 1);
+  }
+
   render() {
+    const { set } = this.props;
+    const counter = this.props.counter || 0;
     return (
-      <div>Hello World</div>
+      <div>
+        <h1>Hello World</h1>
+        <div>{counter.toString()}</div>
+        <button onClick={this.increment}>increment</button>
+      </div>
     )
   }
 }
 
-export default App;
 
-// const mapStateToProps = (state: any) => {
-//   return {
-//     counter: state.counter
-//   }
-// }
+const mapStateToProps = (state: any) => {
+  return {
+    counter: state.App.counter
+  }
+}
 
-// const mapDispatchToProps = undefined;
-// // const mapDispatchToProps = { increment, decrement, reset }
+const mapDispatchToProps = (dispatch: Function) => {
+  return {
+    set: (amt: any) => dispatch({ type: 'SET_AMOUNT', amt })
+  }
+}
 
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
