@@ -1,6 +1,10 @@
 import React from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
-// import { increment, decrement, reset } from './actionCreators';
+import { createStructuredSelector } from 'reselect';
+import { key, makeSelectCounter } from './selectors';
+import injectReducer from '../utils/injectReducer';
+import reducer from './reducer';
 
 class App extends React.Component {
   props: any;
@@ -8,6 +12,7 @@ class App extends React.Component {
   constructor(props: any) {
     super(props);
 
+    console.log(makeSelectCounter);
     this.increment = this.increment.bind(this);
   }
 
@@ -17,7 +22,6 @@ class App extends React.Component {
   }
 
   render() {
-    const { set } = this.props;
     const counter = this.props.counter || 0;
     return (
       <div>
@@ -29,12 +33,9 @@ class App extends React.Component {
   }
 }
 
-
-const mapStateToProps = (state: any) => {
-  return {
-    counter: state.App.counter
-  }
-}
+const mapStateToProps = createStructuredSelector({
+  counter: makeSelectCounter(),
+});
 
 const mapDispatchToProps = (dispatch: Function) => {
   return {
@@ -42,7 +43,7 @@ const mapDispatchToProps = (dispatch: Function) => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withReducer = injectReducer({ key, reducer });
+
+export default compose(withReducer, withConnect)(App);

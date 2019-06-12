@@ -6,11 +6,12 @@ import { createStore } from 'redux';
 // import configureStore from './configureStore';
 // import message from '../component/message';
 import App from './App';
-import reducers from './reducers';
+import configureStore from './configureStore';
 
-// const initialState = {};
 // const store = configureStore(initialState);
-const store = createStore(reducers);
+// const store = createStore(reducers);
+const initialState = {};
+const store = configureStore(initialState);
 
 const rootElement = document.getElementById('root')
 ReactDOM.render(
