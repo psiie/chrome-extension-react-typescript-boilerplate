@@ -1,8 +1,7 @@
 {
-  "name": "ts-boilerplate",
+  "name": "chrome-extension-react-typescript-boilerplate",
   "version": "1.0.0",
-  "main": "index.js",
-  "description": "hello world",
+  "description": "boilerplate for chrome extension building",
   "homepage": "http://github.com/darkenvy",
   "license": "MIT",
   "devDependencies": {
