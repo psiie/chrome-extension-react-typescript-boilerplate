@@ -6,7 +6,7 @@ export const initialState = {
 function reducer(state = initialState, action) {
   switch (action.type) {
     case 'SET_AMOUNT':
-      return { ...state, counter: action.amt };
+      return { ...state, counter: action.data };
     case 'FETCH_SUCCEEDED':
       return { ...state, counter: action.data };
     default:

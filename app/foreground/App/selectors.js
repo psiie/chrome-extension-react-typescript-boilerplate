@@ -5,6 +5,6 @@ export const key = 'home';
 
 const selectLocal = state => state[key] || initialState;
 
-const makeSelectCounter = () => createSelector(selectLocal, state => state.counter);
+const selectCounter = () => createSelector(selectLocal, state => state.counter);
 
-export { selectLocal, makeSelectCounter };
+export { selectLocal, selectCounter };

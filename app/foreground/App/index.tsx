@@ -1,58 +1,23 @@
 import React from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import PropTypes from 'prop-types';
-import { key, makeSelectCounter } from './selectors';
-import injectReducer from '../utils/injectReducer';
-import injectSaga from '../utils/injectSaga';
+import { connector, inject } from '../utils/connector';
+import { key, selectCounter } from './selectors';
 import reducer from './reducer';
 import saga from './sagas';
 
-const newInjectSaga: any = injectSaga;
-const newCompose: any = compose;
-const newConnect: any = connect;
-
-// @redux({
-//   key,
-//   reducer,
-// }, {
-
-// }, {
-
-// })
-
-// @newCompose(
-//   injectReducer({ key, reducer }),
-//   injectSaga({ key, saga }),
-// )
-// @injectSaga({ key, saga })
-// @compose(
-  // )
-// @newConnect((
-//   createStructuredSelector({
-//     counter: makeSelectCounter(),
-//   })
-// ), (dispatch: Function) => ({
-  // reduxTest: () => dispatch({ type: 'FETCH_REQUESTED', msg: {test:true} }),
-  // set: (amt: any) => dispatch({ type: 'SET_AMOUNT', amt }),
-// }))
-
-@injectSaga({ key, saga })
-@newCompose(injectReducer({ key, reducer }))
-@newConnect(createStructuredSelector({
-  counter: makeSelectCounter(),
-}), (dispatch: Function) => ({
-  reduxTest: () => dispatch({ type: 'FETCH_REQUESTED', msg: {test:true} }),
-  set: (amt: any) => dispatch({ type: 'SET_AMOUNT', amt }),
-}))
+@connector({ // binds selectors and dispatchers to props
+  counter: selectCounter(),
+}, {
+  reduxTest: 'FETCH_REQUESTED',
+  set: 'SET_AMOUNT',
+})
+@inject({ key, saga, reducer }) // connects reducer and saga to the store (instantiated at entryfile)
 export default class App extends React.Component {
   props: any;
 
-  constructor(props: any, context: any) {
+  constructor(props: any) {
     super(props);
 
-    console.log(props);
+    console.log('test', this)
     this.increment = this.increment.bind(this);
   }
 
@@ -73,7 +38,6 @@ export default class App extends React.Component {
     )
   }
 }
-
 
 // export function mapDispatchToProps(dispatch: any) {
 //   return {
