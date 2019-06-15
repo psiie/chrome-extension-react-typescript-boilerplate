@@ -6,13 +6,31 @@ import { key, makeSelectCounter } from './selectors';
 import injectReducer from '../utils/injectReducer';
 import reducer from './reducer';
 
-class App extends React.Component {
+const newCompose: any = compose;
+const newConnect: any = connect;
+
+// @redux({
+//   key,
+//   reducer,
+// }, {
+
+// }, {
+
+// })
+
+@newCompose(injectReducer({ key, reducer }))
+@newConnect(createStructuredSelector({
+  counter: makeSelectCounter(),
+}), (dispatch: Function) => ({
+  set: (amt: any) => dispatch({ type: 'SET_AMOUNT', amt }),
+}))
+export default class App extends React.Component {
   props: any;
 
   constructor(props: any) {
     super(props);
 
-    console.log(makeSelectCounter);
+    console.log('newConnect', props);
     this.increment = this.increment.bind(this);
   }
 
@@ -32,18 +50,3 @@ class App extends React.Component {
     )
   }
 }
-
-const mapStateToProps = createStructuredSelector({
-  counter: makeSelectCounter(),
-});
-
-const mapDispatchToProps = (dispatch: Function) => {
-  return {
-    set: (amt: any) => dispatch({ type: 'SET_AMOUNT', amt })
-  }
-}
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
-const withReducer = injectReducer({ key, reducer });
-
-export default compose(withReducer, withConnect)(App);
