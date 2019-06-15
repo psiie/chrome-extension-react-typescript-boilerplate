@@ -29,11 +29,20 @@ const newConnect: any = connect;
 // @injectSaga({ key, saga })
 // @compose(
   // )
-@newConnect((
-  createStructuredSelector({
-    counter: makeSelectCounter(),
-  })
-), (dispatch: Function) => ({
+// @newConnect((
+//   createStructuredSelector({
+//     counter: makeSelectCounter(),
+//   })
+// ), (dispatch: Function) => ({
+  // reduxTest: () => dispatch({ type: 'FETCH_REQUESTED', msg: {test:true} }),
+  // set: (amt: any) => dispatch({ type: 'SET_AMOUNT', amt }),
+// }))
+
+@injectSaga({ key, saga })
+@newCompose(injectReducer({ key, reducer }))
+@newConnect(createStructuredSelector({
+  counter: makeSelectCounter(),
+}), (dispatch: Function) => ({
   reduxTest: () => dispatch({ type: 'FETCH_REQUESTED', msg: {test:true} }),
   set: (amt: any) => dispatch({ type: 'SET_AMOUNT', amt }),
 }))
