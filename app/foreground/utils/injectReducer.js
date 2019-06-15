@@ -19,8 +19,6 @@ export default ({ key, reducer }) => WrappedComponent => {
       store: PropTypes.object.isRequired,
     };
 
-    // static contextType = ReactReduxContext;
-
     static displayName = `withReducer(${WrappedComponent.displayName ||
       WrappedComponent.name ||
       'Component'})`;

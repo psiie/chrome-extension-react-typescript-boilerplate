@@ -26,17 +26,24 @@ const newConnect: any = connect;
 //   injectReducer({ key, reducer }),
 //   injectSaga({ key, saga }),
 // )
-// @newConnect(createStructuredSelector({
-//   counter: makeSelectCounter(),
-// }), (dispatch: Function) => ({
-//   set: (amt: any) => dispatch({ type: 'SET_AMOUNT', amt }),
-// }))
-class App extends React.Component {
+// @injectSaga({ key, saga })
+// @compose(
+  // )
+@newConnect((
+  createStructuredSelector({
+    counter: makeSelectCounter(),
+  })
+), (dispatch: Function) => ({
+  reduxTest: () => dispatch({ type: 'FETCH_REQUESTED', msg: {test:true} }),
+  set: (amt: any) => dispatch({ type: 'SET_AMOUNT', amt }),
+}))
+export default class App extends React.Component {
   props: any;
 
   constructor(props: any, context: any) {
     super(props);
 
+    console.log(props);
     this.increment = this.increment.bind(this);
   }
 
@@ -59,18 +66,19 @@ class App extends React.Component {
 }
 
 
-export function mapDispatchToProps(dispatch: any) {
-  return {
-    reduxTest: () => dispatch({ type: 'FETCH_REQUESTED', msg: {test:true} }),
-  };
-}
+// export function mapDispatchToProps(dispatch: any) {
+//   return {
+    // reduxTest: () => dispatch({ type: 'FETCH_REQUESTED', msg: {test:true} }),
+    // set: (amt: any) => dispatch({ type: 'SET_AMOUNT', amt }),
+//   };
+// }
 
-const mapStateToProps = createStructuredSelector({
-  counter: makeSelectCounter(),
-});
+// const mapStateToProps = createStructuredSelector({
+//   counter: makeSelectCounter(),
+// });
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
-const withReducer = injectReducer({ key, reducer });
-const withSaga = newInjectSaga({ key, saga });
+// const withConnect = connect(mapStateToProps, mapDispatchToProps);
+// const withReducer = injectReducer({ key, reducer });
+// const withSaga = newInjectSaga({ key, saga });
 
-export default compose(withReducer, withSaga, withConnect)(App);
+// export default compose(withReducer, withSaga, withConnect)(App);

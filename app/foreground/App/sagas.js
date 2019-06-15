@@ -10,7 +10,6 @@ function* fetch(action) {
   
   yield put({ type: "FETCH_SUCCEEDED", data: api });
   // yield put({type: "FETCH_FAILED", message: e.message});
-  
 }
 
 function* sagas() {
