@@ -8,7 +8,7 @@ function* fetch(action) {
     }, 1000);
   });
   
-  yield put({ type: "FETCH_SUCCEEDED", data: api });
+  yield put({ type: "FETCH_SUCCEEDED", payload: api });
   // yield put({type: "FETCH_FAILED", message: e.message});
 }
 

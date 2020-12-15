@@ -17,13 +17,18 @@ here with the value there. */
     "persistent": true
   },
   "browser_action": {
+    // uncomment the next line to enable popups when the extension icon is clicked
+    // "default_popup": "foreground.html",
     "default_icon": "icons/icon19.png",
     "default_title": "browser action demo"
   },
   "permissions": [
+    // Be sure to remove permissions not used
+    "storage",
     "cookies",
     "tabs"
   ],
+  // remove if not using content-scripts. Modify to correct domain usage
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "content_scripts": [
     {

@@ -4,13 +4,19 @@
     "module": "commonjs",                    
     "lib": ["dom"],
     "jsx": "react",                   
-    "allowJs": false,
+    "allowJs": true,
     "outDir": "build",                          
-    "rootDir": "src",
+    "rootDir": ".",
     "strict": true,         
     "noImplicitAny": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "src/*": ["src/*"],
+      "utils/*": ["src/foreground/utils/*"]
+    }
   }
 }

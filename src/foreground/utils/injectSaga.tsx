@@ -15,7 +15,9 @@ import getInjectors from './sagaInjectors';
  *   - constants.ONCE_TILL_UNMOUNT—behaves like 'RESTART_ON_REMOUNT' but never runs it again.
  *
  */
-export default ({ key, saga, mode }) => (WrappedComponent) => {
+export default ({ key, saga, mode }: any) => (WrappedComponent) => {
+  const _key = key || 'default';
+
   class InjectSaga extends React.Component {
     static WrappedComponent = WrappedComponent;
     static contextTypes = {
@@ -25,13 +27,13 @@ export default ({ key, saga, mode }) => (WrappedComponent) => {
 
     componentWillMount() {
       const { injectSaga } = this.injectors;
-      injectSaga(key, { saga, mode }, this.props);
+      injectSaga(_key, { saga, mode }, this.props);
     }
 
     // componentWillUnmount() {
     //   const { ejectSaga } = this.injectors;
 
-    //   ejectSaga(key);
+    //   ejectSaga(_key);
     // }
 
     injectors = getInjectors(this.context.store);

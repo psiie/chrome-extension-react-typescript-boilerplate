@@ -1,23 +1,24 @@
 import React from 'react';
-import { connector, inject } from '../utils/connector';
-import { key, selectCounter } from './selectors';
+import { connect,  compose } from 'utils/connect';
 import reducer from './reducer';
 import saga from './sagas';
+import get from 'lodash/get';
+import { FETCH_REQUESTED, SET_AMOUNT } from './constants';
 
-@connector({ // binds selectors and dispatchers to props
-  counter: selectCounter(),
-}, {
-  reduxTest: 'FETCH_REQUESTED',
-  set: 'SET_AMOUNT',
-})
-@inject({ key, saga, reducer }) // connects reducer and saga to the store (instantiated at entryfile)
+@connect(state => ({
+  state,
+  counter: get(state, 'default.counter'),
+}), dispatch => ({
+  reduxTest: () => dispatch({ type: FETCH_REQUESTED }),
+  set: amount => dispatch({ type: SET_AMOUNT , payload: amount }),
+}))
+@compose({ saga, reducer })
 export default class App extends React.Component {
   props: any;
 
   constructor(props: any) {
     super(props);
 
-    console.log('test', this)
     this.increment = this.increment.bind(this);
   }
 
@@ -29,7 +30,6 @@ export default class App extends React.Component {
   render() {
     const counter = this.props.counter || 0;
 
-    console.log('this.props', this.props);
     return (
       <div>
         <h1>Hello World</h1>
@@ -40,20 +40,3 @@ export default class App extends React.Component {
     )
   }
 }
-
-// export function mapDispatchToProps(dispatch: any) {
-//   return {
-    // reduxTest: () => dispatch({ type: 'FETCH_REQUESTED', msg: {test:true} }),
-    // set: (amt: any) => dispatch({ type: 'SET_AMOUNT', amt }),
-//   };
-// }
-
-// const mapStateToProps = createStructuredSelector({
-//   counter: makeSelectCounter(),
-// });
-
-// const withConnect = connect(mapStateToProps, mapDispatchToProps);
-// const withReducer = injectReducer({ key, reducer });
-// const withSaga = newInjectSaga({ key, saga });
-
-// export default compose(withReducer, withSaga, withConnect)(App);

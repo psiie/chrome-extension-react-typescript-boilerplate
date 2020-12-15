@@ -43,9 +43,11 @@ const config = {
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
     alias: {
+      src: path.resolve(__dirname, 'src'),
+      utils: path.resolve(__dirname, 'src/foreground/utils'),
       // react: "preact-compat",
       // "react-dom": "preact-compat",
-    }
+    },
   },
   output: {
     filename: '[name].bundle.js',
